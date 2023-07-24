@@ -34,6 +34,7 @@ async function run() {
         const usersCollection = client.db('Enroll').collection("users");
         const collageInfo = client.db('Enroll').collection("collageInfo");
         const Enrolls = client.db('Enroll').collection("enrolls");
+        const Reviews = client.db('Enroll').collection("reviews");
 
         app.get('/users', async (req, res) => {
             const result = await usersCollection.find().toArray();
@@ -47,6 +48,17 @@ async function run() {
             const result = await usersCollection.findOne(filter)
             res.send(result);
         })
+        app.post('/reviews',async (req,res)=>{
+            const review=req.body;
+            const result =await Reviews.insertOne(review)
+            res.send(result)
+        })
+
+        app.get('/showAllReviews',async(req,res)=>{
+            const result= await Reviews.find().toArray();
+            res.send(result)
+        })
+
 
         app.post('/users', async (req, res) => {
             const user = req.body;
